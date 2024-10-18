@@ -10,15 +10,6 @@ A simple API for Cambridge Dictionary, built with Node.js.
 
 api/dictionary/`{language}`/`{word}`
 
-#### **language option:**
-
-| option      |         description         |
-| ----------- | :-------------------------: |
-| **`en`**    |        english (us)         |
-| **`uk`**    |        english (uk)         |
-| **`en-cn`** | english-chinese-simplified  |
-| **`en-tw`** | english-chinese-traditional |
-
 **use `/` to test it with UI**
 
 ## 🌐 Deploy
