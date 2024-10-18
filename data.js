@@ -6,7 +6,7 @@ const app = express();
 const cors = require("cors");
 
 const fetchVerbs = (wiki) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     axios
       .get(wiki)
       .then((response) => {
@@ -33,7 +33,7 @@ const fetchVerbs = (wiki) => {
         }
         resolve(verbs);
       })
-      .catch((error) => {
+      .catch((_error) => {
         resolve();
       });
   });
@@ -41,24 +41,65 @@ const fetchVerbs = (wiki) => {
 
 app.use(cors({ origin: "*" }));
 
-app.get("/", (req, res) => {
+app.get("/", (_req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.get("/api/dictionary/:language/:entry", (req, res, next) => {
+app.get("/api/dictionary/:language/:entry", (req, res) => {
   const entry = req.params.entry;
   const slugLanguage = req.params.language;
   let nation = "us";
 
-  if (slugLanguage === "en") {
-    language = "english";
-  } else if (slugLanguage === "uk") {
-    language = "english";
-    nation = "uk";
-  } else if (slugLanguage === "en-tw") {
-    language = "english-chinese-traditional";
-  } else if (slugLanguage === "en-cn") {
-    language = "english-chinese-simplified";
+  switch (slugLanguage) {
+    case "en":
+      language = "english";
+      break;
+    case "uk":
+      language = "english";
+      nation = "uk";
+      break;
+    case "en-pt":
+      language = "english-portuguese";
+      break;
+    case "en-jp":
+      language = "english-japanese";
+      break;
+    case "en-es":
+      language = "english-spanish";
+      break;
+    case "es-en":
+      language = "spanish-english";
+      break;
+    case "en-cn":
+      language = "english-chinese-simplified";
+      break;
+    case "en-tw":
+      language = "english-chinese-traditional";
+      break;
+    case "en-nl":
+      language = "english-dutch";
+      break;
+    case "en-fr":
+      language = "english-french";
+      break;
+    case "en-de":
+      language = "english-german";
+      break;
+    case "en-id":
+      language = "english-indonesian";
+      break;
+    case "en-it":
+      language = "english-italian";
+      break;
+    case "en-no":
+      language = "english-norwegian";
+      break;
+    case "en-pl":
+      language = "english-polish";
+      break;
+    case "en-sv":
+      language = "english-swedish";
+      break;
   }
 
   const url = `https://dictionary.cambridge.org/${nation}/dictionary/${language}/${entry}`;
@@ -76,7 +117,7 @@ app.get("/api/dictionary/:language/:entry", (req, res, next) => {
 
       const word = $(".hw.dhw").first().text();
       const getPos = $(".pos.dpos") // part of speech
-        .map((index, element) => {
+        .map((_index, element) => {
           return $(element).text();
         })
         .get();
@@ -118,7 +159,7 @@ app.get("/api/dictionary/:language/:entry", (req, res, next) => {
 
       // definition & example
       const exampleCount = $(".def-body.ddef_b")
-        .map((index, element) => {
+        .map((_index, element) => {
           const exampleElements = $(element).find(".examp.dexamp");
           return exampleElements.length;
         })
